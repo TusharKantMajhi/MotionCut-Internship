@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Interface</title>
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Body styling */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #96aff5;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Search container styling */
+    .search-container {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      border-radius: 30px;
+      width: 80%; /* Adjust container width */
+      max-width: 600px; /* Maximum width */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dropdown styling */
+    .dropdown {
+      position: relative;
+      width: 30%;
+    }
+
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #96145f;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      border-right: 2px solid #ffffff; /* Right border for separation */
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #ffffff;
+      color: #000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      top: 50px;
+      width: 100%;
+      z-index: 1;
+      padding: 10px 0;
+    }
+
+    .dropdown-content a {
+      color: #000;
+      padding: 10px 20px;
+      display: block;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Show dropdown on button click */
+    .dropdown.active .dropdown-content {
+      display: block;
+    }
+
+    /* Search input styling */
+    .search-input-container {
+      position: relative;
+      width: 70%; /* Adjust to fit next to dropdown */
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      background-color: #ffffff;
+      color: #96145f;
+      font-size: 16px;
+      outline: none;
+    }
+
+    /* Search icon inside input field */
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      color: #96145f;
+      pointer-events: none; /* Prevents interaction with icon */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="search-container">
+    <div class="dropdown">
+      <button class="dropdown-btn">
+        Everything
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#">Everything</a>
+        <a href="#">Software Development</a>
+        <a href="#">Web Development</a>
+        <a href="#">Data Analyst</a>
+        <a href="#">IT Consultant</a>
+        <a href="#">Network Administrator</a>
+      </div>
+    </div>
+
+    <!-- Search Input Field with Icon Inside -->
+    <div class="search-input-container">
+      <input type="text" placeholder="Search Anything" class="search-input">
+      <!-- Search Icon Inside the Input Field -->
+      <i class="fas fa-search search-icon"></i>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdown = document.querySelector('.dropdown');
+      const dropdownBtn = document.querySelector('.dropdown-btn');
+      const dropdownContent = document.querySelector('.dropdown-content');
+
+      dropdownBtn.addEventListener('click', () => {
+        dropdown.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target)) {
+          dropdown.classList.remove('active');
+        }
+      });
+
+      dropdownContent.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+          dropdownBtn.innerHTML = event.target.textContent + ' <i class="fas fa-chevron-down"></i>';
+          dropdown.classList.remove('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
