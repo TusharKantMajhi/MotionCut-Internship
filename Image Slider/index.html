@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tilt Slider</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #333, #555);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Slider Container */
+        .slider-container {
+            width: 80%;
+            max-width: 1200px;
+            position: relative;
+            perspective: 1500px;
+            padding-bottom: 60px; /* Spacing for captions */
+        }
+
+        .slider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 400px;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        /* Slide Styling */
+        .slide {
+            position: absolute;
+            width: 300px;
+            height: 100%;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            opacity: 0.5;
+            transform-origin: center center;
+            visibility: hidden;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            transition: border 0.8s ease-in-out;
+        }
+
+        .slide.active img {
+            border-color: rgba(255, 255, 255, 0.8); /* Highlight border */
+        }
+
+        /* Captions */
+        .caption {
+            position: absolute;
+            bottom: -70px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.4rem;
+            color: #c7f511;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .slide.active .caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation Buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: none;
+            font-size: 2rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+        }
+
+        #prev {
+            left: 10px;
+        }
+
+        #next {
+            right: 10px;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+
+        /* Visibility Handling */
+        .slider .slide.active,
+        .slider .slide:nth-child(2),
+        .slider .slide:nth-child(3) {
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide active">
+                <img src="image1.jpeg" alt="Machu Picchu">
+                <p class="caption">Machu Picchu</p>
+            </div>
+            <div class="slide">
+                <img src="images2.jpeg" alt="Eiffel Tower">
+                <p class="caption">Eiffel Tower</p>
+            </div>
+            <div class="slide">
+                <img src="image3.jpeg" alt="Great Wall of China">
+                <p class="caption">Great Wall of China</p>
+            </div>
+            <div class="slide">
+                <img src="images4.jpeg" alt="Statue of Liberty">
+                <p class="caption">Statue of Liberty</p>
+            </div>
+            <div class="slide">
+                <img src="iamgses5.jpeg" alt="Taj Mahal">
+                <p class="caption">Taj Mahal</p>
+            </div>
+        </div>
+        <button id="prev" class="nav-button">❮</button>
+        <button id="next" class="nav-button">❯</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        let currentIndex = 0;
+
+        const gap = 220; // Adjust based on slide width and gap
+
+        // Update slides based on current index
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                const offset = index - currentIndex;
+                slide.style.transform = `translateX(${offset * gap}px) scale(${1 - Math.abs(offset) * 0.1}) rotateY(${offset * -15}deg)`;
+                slide.style.opacity = offset === 0 ? 1 : 0.5;
+                slide.classList.toggle('active', offset === 0);
+                slide.style.visibility = Math.abs(offset) <= 1 ? 'visible' : 'hidden';
+            });
+        }
+
+        // Event Listeners for navigation
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
+            updateSlides();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
+            updateSlides();
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+
+</html>
